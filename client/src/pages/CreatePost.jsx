@@ -11,12 +11,14 @@ const CreatePost = () => {
     prompt: "",
     photo: "",
   });
+
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (form.prompt && form.photo) {
+    if (form.prompt && form.photo) {
+      try {
         setLoading(true);
         const response = await fetch("http//:localhost:5175/api/v1/posts", {
           method: "POST",
@@ -24,21 +26,24 @@ const CreatePost = () => {
           body: JSON.stringify(form),
         });
         await response.json();
-        navigate('/')
+        navigate("/");
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.log(error.message);
-    }finally{
-      setLoading(false)
     }
   };
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
   const handleSurpriseMe = () => {
     const randomPrompt = getRandomPrompt();
     setForm({ ...form, prompt: randomPrompt });
   };
+
   const generateImg = async () => {
     if (form.prompt) {
       try {
@@ -128,6 +133,7 @@ const CreatePost = () => {
           </p>
           <button
             type="submit"
+            disabled={form.photo}
             className="mt-2 text-white bg-[#6469ff] font-medium rounded-md text-md w-full sm:w-auto px-5 py-2 text-center"
           >
             {loading ? "Loading..." : "Share with the Community"}
