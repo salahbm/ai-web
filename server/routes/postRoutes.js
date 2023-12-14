@@ -7,3 +7,6 @@ import Post from '../mongoDb/models/post.js'
 dotenv.config()
 
 const router = express.Router()
+
+
+export default router;
