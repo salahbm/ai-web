@@ -12,49 +12,54 @@ const RenderCards = ({ data, title }) => {
 };
 const Home = () => {
   const [loading, setLoading] = useState(false);
-  const [allPost, setAllPosts] = useState(null);
+  const [allPosts, setAllPosts] = useState(null);
+
   const [searchText, setSearchText] = useState("");
-  const [searchResults, setSearchResults] = useState(null);
-  const [searchTimeOut, setSearchTimeOut] = useState(null);
+  const [searchTimeout, setSearchTimeout] = useState(null);
+  const [searchedResults, setSearchedResults] = useState(null);
+
+  const fetchPosts = async () => {
+    setLoading(true);
+
+    try {
+      const response = await fetch("http//:localhost:5175/api/v1/posts", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setAllPosts(result.data.reverse());
+      }
+    } catch (err) {
+      alert(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchPost = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch("http//:localhost:5175/api/v1/posts", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          setAllPosts(result.data.reverse());
-        }
-      } catch (error) {
-        alert(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPost();
+    fetchPosts();
   }, []);
 
   const handleSearchChange = (e) => {
-    clearTimeout(searchTimeOut);
+    clearTimeout(searchTimeout);
     setSearchText(e.target.value);
 
-    setSearchTimeOut(
+    setSearchTimeout(
       setTimeout(() => {
-        const searchedResult = allPost.filter(
+        const searchResult = allPosts.filter(
           (item) =>
-            item.name.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.prompt.toLowerCase().includes(searchText.toLowerCase())
+            item?.name.toLowerCase().includes(searchText.toLowerCase()) ||
+            item?.prompt.toLowerCase().includes(searchText.toLowerCase())
         );
-
-        setSearchResults(searchedResult);
+        setSearchedResults(searchResult);
       }, 500)
     );
   };
+
   return (
     <section className=" max-w-7xl mx-auto ">
       <div>
@@ -91,11 +96,11 @@ const Home = () => {
             <div className="grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3 ">
               {searchText ? (
                 <RenderCards
-                  data={searchResults}
+                  data={searchedResults}
                   title={"No search results found"}
                 />
               ) : (
-                <RenderCards data={allPost} title="No posts are found" />
+                <RenderCards data={allPosts} title="No posts are found" />
               )}
             </div>
           </>
