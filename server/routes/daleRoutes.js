@@ -25,7 +25,9 @@ router.route('/').post(async (req, res) => {
             prompt: prompt,
             n: 1,
             size: '1024x1024',
-            response_format: 'b64_json'
+            response_format: 'b64_json',
+            model:'dall-e-3',
+            quality:'hd'
         });
 
         const image = response.data.data[0].image.b64_json;
