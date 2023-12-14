@@ -16,7 +16,13 @@ const router = express.Router()
 // GET POST
 
 router.route('/').get(async(req, res)=>{
-    
+    try {
+        const post = await Post.find({})
+        req.status(200).json({success: true, data: post})
+    } catch (error) {
+        req.status(500).json({success: false, data: error.message})
+        
+    }
 })
 // Create a  POST
 
@@ -34,7 +40,7 @@ const newPost = await Post.create({
 
 res.status(201).json({success: true, data: newPost})
 } catch (error) {
-req.status(500).json({status: false, error: error.message})
+req.status(500).json({success: false, error: error.message})
 }
 })
 
