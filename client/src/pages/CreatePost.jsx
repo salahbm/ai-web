@@ -13,7 +13,25 @@ const CreatePost = () => {
   });
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (form.prompt && form.photo) {
+        setLoading(true);
+        const response = await fetch("http//:localhost:5175/api/v1/posts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        await response.json();
+        navigate('/')
+      }
+    } catch (error) {
+      console.log(error.message);
+    }finally{
+      setLoading(false)
+    }
+  };
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };

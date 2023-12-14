@@ -3,6 +3,7 @@ import cors from 'cors';
 import * as dotenv from 'dotenv';
 import connectDB from './mongoDb/connect.js';
 import daleRoutes from './routes/daleRoutes.js';
+import postRoutes from './routes/postRoutes.js'
 
 dotenv.config();
 const port = 5175;
@@ -15,6 +16,7 @@ app.use(express.json({
 }));
 
 app.use('/api/v1/dalle', daleRoutes);
+app.use('/api/v1/posts', postRoutes);
 
 app.get('/', async (req, res) => {
     res.send('Hello from server');
