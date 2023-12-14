@@ -15,13 +15,35 @@ const CreatePost = () => {
   const [loading, setLoading] = useState(false);
   const handleSubmit = () => {};
   const handleChange = (e) => {
-    setForm({...form, [e.target.name]:e.target.value})
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
   const handleSurpriseMe = () => {
-    const randomPrompt = getRandomPrompt()
-setForm({...form, prompt: randomPrompt})
+    const randomPrompt = getRandomPrompt();
+    setForm({ ...form, prompt: randomPrompt });
   };
-  const generateImg = () => {};
+  const generateImg = async () => {
+    if (form.prompt) {
+      try {
+        setGeneratingImg(true);
+        const response = await fetch("http://localhost:5175/api/v1/dalle", {
+          // Fix: Correct the URL
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: form.prompt }),
+        });
+
+        const data = await response.json();
+        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        setGeneratingImg(false);
+      }
+    } else {
+      alert("Please Enter Prompt");
+    }
+  };
+
   return (
     <section className="max-w-7xl mx-auto">
       <div>
