@@ -17,4 +17,25 @@ router.route('/').get((req, res)=>{
 })
 
 
+router.route('/').post(async(res, req)=>{
+    try {
+        const {prompt} = req.body
+
+        const response = await openai.images.generate({
+            prompt: prompt,
+            n:1,
+            size: '1024x1024',
+            response_format:'b64_json'
+        })
+
+        const image  =response.data.data[0].image.b64_json
+
+        res.statusCode(200).json({photo: image})
+
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+
 export default router;
