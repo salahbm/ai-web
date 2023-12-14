@@ -2,6 +2,8 @@ import express from 'express'
 import * as dotenv from 'dotenv'
 import cors from 'cors'
 import connectDB from './mongoDb/connect.js';
+import daleRoutes from './routes/daleRoutes.js';
+
 
 
 dotenv.config();
@@ -12,6 +14,10 @@ app.use(cors)
 app.use(express.json({
     limit: '50mb'
 }))
+
+
+// app.use('api/v1/post', postRoutes)
+app.use('api/v1/dalle', daleRoutes)
 
 app.get('/', async (req, res) => {
     res.send('Hello from server')
