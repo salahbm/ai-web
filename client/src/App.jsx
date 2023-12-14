@@ -14,7 +14,6 @@ const App = () => {
           to="./create-post"
           className="font-inter font-medium bg-[#6469ff] text-white p-4 py-2 rounded-r-md"
         >
-          {" "}
           Create Post
         </Link>
       </header>
