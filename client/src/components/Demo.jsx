@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Hero from "./Hero";
-import { copy, linkIcon, loader } from "../assets";
+import { copy, linkIcon, loader, tick } from "../assets";
 import { useLazyGetSummaryQuery } from "../redux/slicer/article";
 
 const Demo = () => {
@@ -10,6 +10,7 @@ const Demo = () => {
   });
   const [allArticles, setAllArticles] = useState([]);
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
+  const [copy, setCopy] = useState("");
 
   useEffect(() => {
     const articlesFromStorage = JSON.parse(localStorage.getItem("articles"));
@@ -29,6 +30,15 @@ const Demo = () => {
 
       localStorage.setItem("articles", JSON.stringify(updatedAllArticles));
     }
+  };
+
+  const handleCopy = async (copyUrl) => {
+    setCopy(copyUrl);
+    navigator.clipboard.writeText(copyUrl);
+
+    setTimeout(() => {
+      setCopy(false);
+    }, 3000);
   };
   return (
     <section className="z-10 min-h-full">
@@ -67,9 +77,9 @@ const Demo = () => {
             onClick={() => setArticle(item)}
             className="link_card"
           >
-            <div className="copy_btn">
+            <div className="copy_btn" onClick={() => handleCopy(item.url)}>
               <img
-                src={copy}
+                src={copy === item.url ? tick : copy}
                 alt="copy"
                 className="w-[40%] h-{40%] object-contain "
               />
