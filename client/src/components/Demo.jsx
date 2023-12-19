@@ -21,13 +21,21 @@ const Demo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const existingArticle = allArticles.find(
+      (item) => item.url === article.url
+    );
+
+    if (existingArticle) return setArticle(existingArticle);
+
     const { data } = await getSummary({ articleUrl: article.url });
     if (data?.summary) {
-      const newArticle = { ...article, summary: data?.summary };
+      const newArticle = { ...article, summary: data.summary };
       const updatedAllArticles = [newArticle, ...allArticles];
+
+      // update state and local storage
       setArticle(newArticle);
       setAllArticles(updatedAllArticles);
-
       localStorage.setItem("articles", JSON.stringify(updatedAllArticles));
     }
   };
@@ -40,6 +48,13 @@ const Demo = () => {
       setCopy(false);
     }, 3000);
   };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleSubmit(e);
+    }
+  };
+
   return (
     <section className="z-10 min-h-full">
       <Hero />
@@ -62,10 +77,11 @@ const Demo = () => {
                 setArticle({ ...article, url: e.target.value });
               }}
               required
+              onKeyDown={handleKeyDown}
               className="url_input peer-focus:border-gray-700 peer-focus:text-gray-700"
             />
             <button className="submit_btn " type="submit">
-              🔍
+              <p>🔍</p>
             </button>
           </form>
         </div>
