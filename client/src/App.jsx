@@ -19,7 +19,7 @@ const App = () => {
             Create Post
           </Link>
           <Link
-            to="./create-post"
+            to="./demo"
             className="font-inter font-medium bg-[#6469ff] text-white p-4 py-2 rounded-md"
           >
             AI Summary

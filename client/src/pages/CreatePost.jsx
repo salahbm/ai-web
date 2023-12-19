@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormField from "../components/FormField";
-import { preview } from "../assets/index";
 import Loader from "../components/Loader";
 import { getRandomPrompt } from "../utils";
+import { preview } from "../assets";
+
 const CreatePost = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
