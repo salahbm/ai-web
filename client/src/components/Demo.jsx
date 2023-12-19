@@ -10,7 +10,7 @@ const Demo = () => {
   });
   const [allArticles, setAllArticles] = useState([]);
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
-  const [copy, setCopy] = useState("");
+  const [copied, setCopied] = useState("");
 
   useEffect(() => {
     const articlesFromStorage = JSON.parse(localStorage.getItem("articles"));
@@ -41,7 +41,7 @@ const Demo = () => {
   };
 
   const handleCopy = async (copyUrl) => {
-    setCopy(copyUrl);
+    setCopied(copyUrl);
     navigator.clipboard.writeText(copyUrl);
 
     setTimeout(() => {
@@ -95,7 +95,7 @@ const Demo = () => {
           >
             <div className="copy_btn" onClick={() => handleCopy(item.url)}>
               <img
-                src={copy === item.url ? tick : copy}
+                src={copied === item.url ? tick : copy}
                 alt="copy"
                 className="w-[40%] h-{40%] object-contain "
               />
@@ -129,7 +129,7 @@ const Demo = () => {
                 Article <span className="blue_gradient">Summary</span>
               </h2>
               <div className="summary_box">
-                <p className="font-inter font-medium text-sm text-gray-700">
+                <p className="font-inter font-medium sm:text-sm md:text-md lg:text-lg text-gray-700">
                   {article.summary}
                 </p>
               </div>
