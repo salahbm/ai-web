@@ -34,7 +34,7 @@ const Home = () => {
         setAllPosts(result.data.reverse());
       }
     } catch (err) {
-      alert(err);
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -61,7 +61,7 @@ const Home = () => {
   };
 
   return (
-    <section className=" max-w-7xl mx-auto ">
+    <section className=" max-w-7xl mx-auto">
       <div>
         <h1 className="font-extrabold text-black text-[32px]">
           The Community Show Case
