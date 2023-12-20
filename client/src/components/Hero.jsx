@@ -1,9 +1,8 @@
 import React from "react";
-import { logo } from "../assets";
 
 const Hero = () => {
   return (
-    <header className="w-full flex justify-center items-center flex-col">
+    <div className="w-full flex justify-center items-center flex-col">
       <h1 className="head_text">
         Summarize Articles with <br className="max-md:hidden" />
         <span className="orange_gradient ">OpenAI GPT-4</span>
@@ -12,7 +11,11 @@ const Hero = () => {
         Simplify your reading with Summarize, an open-source article summarizer
         that transforms lengthy articles into clear and concise summaries
       </h2>
-    </header>
+      <h2 className="desc">
+        Please copy and paste desired link from article or website, and AI model
+        will give you summary of the link
+      </h2>
+    </div>
   );
 };
 

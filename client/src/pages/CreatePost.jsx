@@ -50,14 +50,15 @@ const CreatePost = () => {
       try {
         setGeneratingImg(true);
         const response = await fetch("http://localhost:5175/api/v1/dalle", {
-          // Fix: Correct the URL
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ prompt: form.prompt }),
         });
 
         const data = await response.json();
-        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
+        console.log(`file: CreatePost.jsx:60 ~ data:`, data);
+
+        setForm({ ...form, photo: data.photo });
       } catch (error) {
         alert(error.message);
       } finally {
@@ -70,9 +71,9 @@ const CreatePost = () => {
 
   return (
     <section className="max-w-7xl mx-auto ">
-      <div>
+      <div className="flex items-center justify-center flex-col">
         <h1 className="font-extrabold text-black text-[32px]">Create</h1>
-        <p className="mt-1 pl-2 text-neutral-500 text-[16px] max-w-[500px]">
+        <p className="mt-1 pl-2 text-neutral-500 text-[16px] max-w-[700px]">
           Create Imaginative and Stunning Images with AI and share them with the
           Community
         </p>
