@@ -12,7 +12,6 @@ const CreatePost = () => {
     prompt: "",
     photo: "",
   });
-  console.log(`file: CreatePost.jsx:15 ~ form:`, form);
 
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -58,7 +57,6 @@ const CreatePost = () => {
         });
 
         const data = await response.json();
-        console.log(`file: CreatePost.jsx:60 ~ data:`, data);
 
         setForm({ ...form, photo: data.photo });
       } catch (error) {
