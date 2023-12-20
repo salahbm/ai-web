@@ -12,6 +12,7 @@ const CreatePost = () => {
     prompt: "",
     photo: "",
   });
+  console.log(`file: CreatePost.jsx:15 ~ form:`, form);
 
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,11 +22,12 @@ const CreatePost = () => {
     if (form.prompt && form.photo) {
       try {
         setLoading(true);
-        const response = await fetch("http//:localhost:5175/api/v1/posts", {
+        const response = await fetch("http://localhost:5175/api/v1/posts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
         });
+
         await response.json();
         navigate("/");
       } catch (error) {
@@ -60,7 +62,8 @@ const CreatePost = () => {
 
         setForm({ ...form, photo: data.photo });
       } catch (error) {
-        alert(error.message);
+        console.log(error.message);
+        alert("There is the problem with Billing 💸");
       } finally {
         setGeneratingImg(false);
       }
@@ -135,7 +138,7 @@ const CreatePost = () => {
           </p>
           <button
             type="submit"
-            disabled={form.photo}
+            // disabled={form.photo}
             className="mt-2 text-white bg-[#6469ff] font-medium rounded-md text-md w-full sm:w-auto px-5 py-2 text-center"
           >
             {loading ? "Loading..." : "Share with the Community"}
